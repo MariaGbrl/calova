@@ -84,32 +84,31 @@ class MiminController extends Controller
         }
         
         if ($request->hasFile('image'))
-	{
-	
-	    $x = \DB::table('interest')->where('id',$id)->first();
-    	    $x = str_replace("http://calova.id/assets","",$x->image);
-    	    $x1= "../public_html/assets/$x";
-    	    \File::delete($x1);
-	
-	    $destinationPath = '../public_html/assets/';
-	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
-	    $request->file('image')->move($destinationPath, $fileName);
-	    
-	    $forimage = Interest::findOrFail($id);
-    	    $forimage->image = "http://calova.id/assets/$fileName";
-    	    $forimage->save();
-	}
+        {
+            $x = \DB::table('interest')->where('id',$id)->first();
+            $x = str_replace("http://calova.id/assets","",$x->image);
+            $x1= "../public_html/assets/$x";
+            \File::delete($x1);
+
+            $destinationPath = '../public_html/assets/';
+            $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move($destinationPath, $fileName);
+
+            $forimage = Interest::findOrFail($id);
+            $forimage->image = "http://calova.id/assets/$fileName";
+            $forimage->save();
+        }
     
-	$int = Interest::findOrFail($id);
-    	$input = $request->only('name_interest');
-    	$int->fill($input)->save();
+        $int = Interest::findOrFail($id);
+        $input = $request->only('name_interest');
+        $int->fill($input)->save();
     	
     	\DB::table('interest_quizcat')->where('interest_id',$id)->delete();
     	
-  	foreach($request->input('quizcat_interest') as $quizcatInt)
-	{
-		$int->quizcat()->attach($quizcatInt);	
-	} 
+      	foreach($request->input('quizcat_interest') as $quizcatInt)
+    	{
+    		$int->quizcat()->attach($quizcatInt);	
+    	} 
 
         return redirect('mimin/category')->with('status', 'Sukses edit category');
     }
@@ -134,7 +133,7 @@ class MiminController extends Controller
     	\DB::table('interest')->where('id',$id)->delete();
     	\DB::table('interest_quizcat')->where('interest_id',$id)->delete();
     	
-	return redirect('mimin/category')->with('status', 'Sukses detach category');
+        return redirect('mimin/category')->with('status', 'Sukses detach category');
     }
     
     public function add()
@@ -163,33 +162,34 @@ class MiminController extends Controller
                         ->withInput();
         }
     
-	if ($request->hasFile('image'))
-	{
-	    $destinationPath = '../public_html/imagesup/';
-	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
-	    $request->file('image')->move($destinationPath, $fileName);
-	}
+    	if ($request->hasFile('image'))
+    	{
+    	    $destinationPath = '/public/imagesup/';
+    	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
+    	    $request->file('image')->move($destinationPath, $fileName);
+    	}
 	
-	$event = new Events(array(
-		'nama_event' => $request->input('nama_event'),
-		'tgl_event' => $request->input('tgl_event'),
-		'organizer' => $request->input('organizer'),
-		'location' => $request->input('location'),
-		'link' => $request->input('link'),
-		'isi' => $request->input('isi'),
-		'highlight' => $request->input('highlight'),
-		'deadline' => $request->input('deadline'),
-		'biaya' => $request->input('biaya'),
-		'persyaratan' => $request->input('persyaratan'),
-		'type' => $request->input('type'),
-		'gambar_event' => "http://calova.id/imagesup/$fileName"
-	));
-	$event->save();
+    	$event = new Events(array(
+    		'nama_event' => $request->input('nama_event'),
+    		'tgl_event' => $request->input('tgl_event'),
+    		'organizer' => $request->input('organizer'),
+    		'location' => $request->input('location'),
+    		'link' => $request->input('link'),
+    		'isi' => $request->input('isi'),
+    		'highlight' => $request->input('highlight'),
+    		'deadline' => $request->input('deadline'),
+    		'biaya' => $request->input('biaya'),
+    		'persyaratan' => $request->input('persyaratan'),
+    		'type' => $request->input('type'),
+    		'gambar_event' => "http://calova.id/imagesup/$fileName"
+    	));
+
+        $event->save();
 	
-	foreach($request->input('events_interest') as $eventInt)
-	{
-		$event->interest()->attach($eventInt);	
-	}
+    	foreach($request->input('events_interest') as $eventInt)
+    	{
+    		$event->interest()->attach($eventInt);	
+    	}
 	    return redirect('mimin/events')->with('status', 'Sukses tambah events');
       
     }
@@ -205,22 +205,21 @@ class MiminController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         
-	if ($request->hasFile('image'))
-	{
-	
-	    $x = \DB::table('events')->where('id',$id)->first();
+    	if ($request->hasFile('image'))
+    	{
+    	    $x = \DB::table('events')->where('id',$id)->first();
     	    $x = str_replace("http://calova.id/imagesup","",$x->gambar_event);
     	    $x1= "../public_html/imagesup/$x";
     	    \File::delete($x1);
-	
-	    $destinationPath = '../public_html/imagesup/';
-	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
-	    $request->file('image')->move($destinationPath, $fileName);
-	    
-	    $forimage = Events::findOrFail($id);
-    	    $forimage->gambar_event = "http://calova.id/imagesup/$fileName";
-    	    $forimage->save();
-	}    
+    	
+    	    $destinationPath = '../public_html/imagesup/';
+    	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
+    	    $request->file('image')->move($destinationPath, $fileName);
+    	    
+    	    $forimage = Events::findOrFail($id);
+        	$forimage->gambar_event = "http://calova.id/imagesup/$fileName";
+        	$forimage->save();
+    	}    
     
     	$event = Events::findOrFail($id);
     	$input = $request->all();
@@ -230,12 +229,12 @@ class MiminController extends Controller
     	
     	\DB::table('events_interest')->where('events_id',$id)->delete();
     	
-  	foreach($request->input('events_interest') as $eventInt)
-	{
-		$event->interest()->attach($eventInt);	
-	}  	
+        foreach($request->input('events_interest') as $eventInt)
+        {
+            $event->interest()->attach($eventInt);	
+        }  	
     	
-	return redirect('mimin/events')->with('status', 'Sukses edit events');
+	   return redirect('mimin/events')->with('status', 'Sukses edit events');
     }
 
     public function show($id)

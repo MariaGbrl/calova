@@ -10,13 +10,13 @@ class QuizController extends Controller
 	public function index()
 	{
 		
-	        $musik = \App\Quiz::where('quizcat_id','1')->get();
-	        $linguistik = \App\Quiz::where('quizcat_id','2')->get();
-	        $sport = \App\Quiz::where('quizcat_id','3')->get();
-	        $interpersonal = \App\Quiz::where('quizcat_id','4')->get();
-	        $spasial = \App\Quiz::where('quizcat_id','5')->get();
-	        $logic = \App\Quiz::where('quizcat_id','6')->get();
-	        $intrapersonal = \App\Quiz::where('quizcat_id','7')->get();
+		$musik = \App\Quiz::where('quizcat_id','1')->get();
+		$linguistik = \App\Quiz::where('quizcat_id','2')->get();
+		$sport = \App\Quiz::where('quizcat_id','3')->get();
+		$interpersonal = \App\Quiz::where('quizcat_id','4')->get();
+		$spasial = \App\Quiz::where('quizcat_id','5')->get();
+		$logic = \App\Quiz::where('quizcat_id','6')->get();
+		$intrapersonal = \App\Quiz::where('quizcat_id','7')->get();
 		
 		$total = \App\Quiz::count();
 		
@@ -28,18 +28,18 @@ class QuizController extends Controller
 		$x6 = 0;
 		$x7 = 0;
 	
-	        for($i=1;$i<=$total;$i++){
-	        	$x = $i%7;
-	        	if($x==0){ $item["data"][] = $musik[$x1]; $x1++;}
-	        	if($x==1){ $item["data"][] = $linguistik[$x2]; $x2++;}
-	        	if($x==2){ $item["data"][] = $sport[$x3]; $x3++;}
-	        	if($x==3){ $item["data"][] = $interpersonal[$x4]; $x4++;}
-	        	if($x==4){ $item["data"][] = $spasial[$x5]; $x5++;}
-	        	if($x==5){ $item["data"][] = $logic[$x6]; $x6++;}
-	        	if($x==6){ $item["data"][] = $intrapersonal[$x7]; $x7++;}
-	        }
-        
-        	return Response::json(["total" => $total,"data" => $item["data"]]);
+	  for($i=1;$i<=$total;$i++){
+	  	$x = $i%7;
+	  	if($x==0){ $item["data"][] = $musik[$x1]; $x1++;}
+	  	if($x==1){ $item["data"][] = $linguistik[$x2]; $x2++;}
+	  	if($x==2){ $item["data"][] = $sport[$x3]; $x3++;}
+	  	if($x==3){ $item["data"][] = $interpersonal[$x4]; $x4++;}
+	  	if($x==4){ $item["data"][] = $spasial[$x5]; $x5++;}
+	  	if($x==5){ $item["data"][] = $logic[$x6]; $x6++;}
+	  	if($x==6){ $item["data"][] = $intrapersonal[$x7]; $x7++;}
+	  }
+
+		return Response::json(["total" => $total,"data" => $item["data"]]);
 	
 	}
 	
@@ -63,12 +63,12 @@ class QuizController extends Controller
 		
 		else{
 			$musik = \App\Quiz::where('quizcat_id','1')->get()->toArray();
-		        $linguistik = \App\Quiz::where('quizcat_id','2')->get()->toArray();
-		        $sport = \App\Quiz::where('quizcat_id','3')->get()->toArray();
-		        $interpersonal = \App\Quiz::where('quizcat_id','4')->get()->toArray();
-		        $spasial = \App\Quiz::where('quizcat_id','5')->get()->toArray();
-		        $logic = \App\Quiz::where('quizcat_id','6')->get()->toArray();
-		        $intrapersonal = \App\Quiz::where('quizcat_id','7')->get()->toArray();
+      $linguistik = \App\Quiz::where('quizcat_id','2')->get()->toArray();
+      $sport = \App\Quiz::where('quizcat_id','3')->get()->toArray();
+      $interpersonal = \App\Quiz::where('quizcat_id','4')->get()->toArray();
+      $spasial = \App\Quiz::where('quizcat_id','5')->get()->toArray();
+      $logic = \App\Quiz::where('quizcat_id','6')->get()->toArray();
+      $intrapersonal = \App\Quiz::where('quizcat_id','7')->get()->toArray();
 			
 			$x1 = 0;
 			$x2 = 0;
@@ -77,17 +77,17 @@ class QuizController extends Controller
 			$x5 = 0;
 			$x6 = 0;
 			$x7 = 0;
-		
-		        for($i=1;$i<=35;$i++){
-		        	$x = $i%7;
-		        	if($x==0){ $item["data"][] = $musik[$x1]; $x1++;}
-		        	if($x==1){ $item["data"][] = $linguistik[$x2]; $x2++;}
-		        	if($x==2){ $item["data"][] = $sport[$x3]; $x3++;}
-		        	if($x==3){ $item["data"][] = $interpersonal[$x4]; $x4++;}
-		        	if($x==4){ $item["data"][] = $spasial[$x5]; $x5++;}
-		        	if($x==5){ $item["data"][] = $logic[$x6]; $x6++;}
-		        	if($x==6){ $item["data"][] = $intrapersonal[$x7]; $x7++;}
-		        }     
+
+      for($i=1;$i<=35;$i++){
+      	$x = $i%7;
+      	if($x==0){ $item["data"][] = $musik[$x1]; $x1++;}
+      	if($x==1){ $item["data"][] = $linguistik[$x2]; $x2++;}
+      	if($x==2){ $item["data"][] = $sport[$x3]; $x3++;}
+      	if($x==3){ $item["data"][] = $interpersonal[$x4]; $x4++;}
+      	if($x==4){ $item["data"][] = $spasial[$x5]; $x5++;}
+      	if($x==5){ $item["data"][] = $logic[$x6]; $x6++;}
+      	if($x==6){ $item["data"][] = $intrapersonal[$x7]; $x7++;}
+      }     
 
 	
 			$result = self::my_array_merge($item,$request);		

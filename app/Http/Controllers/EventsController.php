@@ -48,7 +48,6 @@ class EventsController extends Controller
             return Response::json(['error' => 'sudah_daftar']);
         }
 
-
     }
 
     /**
