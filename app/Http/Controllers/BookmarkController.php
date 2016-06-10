@@ -8,8 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Response;
-use App\Interest;
-use App\Events;
 use App\User;
 use Auth;
 
@@ -21,7 +19,7 @@ class BookmarkController extends Controller
     public function index()
     {
     	$userid = Auth::user()->id;
-    	$lol = User::find($userid)->events()->select('events.id','nama_event','gambar_event',\DB::raw('substr(isi, 1, 55) as mini_desc'),'tgl_event')->orderBy('id', 'desc')->paginate(9);
+    	$lol = User::find($userid)->event()->select('events.id','nama_event','gambar_event',\DB::raw('substr(isi, 1, 55) as mini_desc'),'tgl_event')->orderBy('id', 'desc')->paginate(9);
     	
    
     	

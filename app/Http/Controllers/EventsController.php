@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Response;
 
-use App\Events;
+use App\Event;
 use App\User;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -23,7 +23,7 @@ class EventsController extends Controller
      */
     public function index()
     {
-    	$lol = Events::select('id','nama_event','gambar_event','tgl_event','type',\DB::raw('substr(isi, 1, 55) as mini_desc'))->orderBy('id', 'desc')->paginate(9);
+    	$lol = Event::select('id','nama_event','gambar_event','tgl_event','type',\DB::raw('substr(isi, 1, 55) as mini_desc'))->orderBy('id', 'desc')->paginate(9);
     	return Response::json($lol)->header('Content-Type', 'application/json');
 	//return Response::json(Events::select('id','nama_event','gambar_event','isi')->paginate(9))->header('Content-Type', 'application/json');
     }
@@ -38,9 +38,9 @@ class EventsController extends Controller
         $userid = Auth::user()->id;
         $user = User::find($userid);
 
-        if (!$user->events->contains($id))
+        if (!$user->event->contains($id))
         {
-            $user->events()->attach($id);
+            $user->event()->attach($id);
             return Response::json(['pesan' => 'sukses_mendaftar']);
         }
         else
@@ -70,7 +70,7 @@ class EventsController extends Controller
     public function show($id)
     {
         $userid = Auth::user()->id;
-        $user = User::find($userid)->events()->where('events_id',$id)->first();
+        $user = User::find($userid)->event()->where('event_id',$id)->first();
         if($user != null){
         	$bookmark = true;
         }
@@ -78,18 +78,18 @@ class EventsController extends Controller
         	$bookmark = false;
         }
         $data = array('bookmark' => $bookmark);
-        $events = Events::where('id',$id)->first();
+        $events = Event::where('id',$id)->first();
         return Response::json(array_merge($events->toArray(),$data));
     }
     
     public function highlight()
     {
-    	return Response::json(Events::where('highlight','1')->first());
+    	return Response::json(Event::where('highlight','1')->first());
     }
     
     public function newhighlight()
     {
-    	$data = Events::orderBy('id', 'desc')->take(3)->where('highlight','1')->get();
+    	$data = Event::orderBy('id', 'desc')->take(3)->where('highlight','1')->get();
     	return Response::json(["data" => $data]);
     }
 

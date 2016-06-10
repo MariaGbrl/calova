@@ -10,13 +10,13 @@ class QuizController extends Controller
 	public function index()
 	{
 		
-		$musik = \App\Quiz::where('quizcat_id','1')->get();
-		$linguistik = \App\Quiz::where('quizcat_id','2')->get();
-		$sport = \App\Quiz::where('quizcat_id','3')->get();
-		$interpersonal = \App\Quiz::where('quizcat_id','4')->get();
-		$spasial = \App\Quiz::where('quizcat_id','5')->get();
-		$logic = \App\Quiz::where('quizcat_id','6')->get();
-		$intrapersonal = \App\Quiz::where('quizcat_id','7')->get();
+		$musik = \App\Quiz::where('quizcategory_id','1')->get();
+		$linguistik = \App\Quiz::where('quizcategory_id','2')->get();
+		$sport = \App\Quiz::where('quizcategory_id','3')->get();
+		$interpersonal = \App\Quiz::where('quizcategory_id','4')->get();
+		$spasial = \App\Quiz::where('quizcategory_id','5')->get();
+		$logic = \App\Quiz::where('quizcategory_id','6')->get();
+		$intrapersonal = \App\Quiz::where('quizcategory_id','7')->get();
 		
 		$total = \App\Quiz::count();
 		
@@ -45,8 +45,8 @@ class QuizController extends Controller
 	
 	public function destroy()
 	{
-		if(\DB::table('user_score')->where('user_id',\Auth::user()->id)->first() !== null){
-			\DB::table('user_score')->where('user_id',\Auth::user()->id)->delete();
+		if(\DB::table('scores')->where('user_id',\Auth::user()->id)->first() !== null){
+			\DB::table('scores')->where('user_id',\Auth::user()->id)->delete();
 			return Response::json(['message' => 'user quiz deleted']);
 		}
 		else
@@ -57,18 +57,18 @@ class QuizController extends Controller
 	
 	public function post(Request $request)
 	{
-		if(\DB::table('user_score')->where('user_id',\Auth::user()->id)->first() !== null){
+		if(\DB::table('scores')->where('user_id',\Auth::user()->id)->first() !== null){
 			return Response::json(['error' => 'user already submit']);
 		}
 		
 		else{
-			$musik = \App\Quiz::where('quizcat_id','1')->get()->toArray();
-      $linguistik = \App\Quiz::where('quizcat_id','2')->get()->toArray();
-      $sport = \App\Quiz::where('quizcat_id','3')->get()->toArray();
-      $interpersonal = \App\Quiz::where('quizcat_id','4')->get()->toArray();
-      $spasial = \App\Quiz::where('quizcat_id','5')->get()->toArray();
-      $logic = \App\Quiz::where('quizcat_id','6')->get()->toArray();
-      $intrapersonal = \App\Quiz::where('quizcat_id','7')->get()->toArray();
+			$musik = \App\Quiz::where('quizcategory_id','1')->get()->toArray();
+      $linguistik = \App\Quiz::where('quizcategory_id','2')->get()->toArray();
+      $sport = \App\Quiz::where('quizcategory_id','3')->get()->toArray();
+      $interpersonal = \App\Quiz::where('quizcategory_id','4')->get()->toArray();
+      $spasial = \App\Quiz::where('quizcategory_id','5')->get()->toArray();
+      $logic = \App\Quiz::where('quizcategory_id','6')->get()->toArray();
+      $intrapersonal = \App\Quiz::where('quizcategory_id','7')->get()->toArray();
 			
 			$x1 = 0;
 			$x2 = 0;
@@ -109,14 +109,14 @@ class QuizController extends Controller
 			$count7 = self::hitung($cat7,$result);
 			
 			$id = \Auth::user()->id;
-			\DB::table('user_score')->insert([
-				'score_musik' => $count1,
-				'score_linguistik' => $count2,
-				'score_sport' => $count3,
-				'score_interpersonal' => $count4,
-				'score_spasial' => $count5,
-				'score_logic' => $count6,
-				'score_intrapersonal' => $count7,
+			\DB::table('scores')->insert([
+				'music' => $count1,
+				'linguistik' => $count2,
+				'sport' => $count3,
+				'interpersonal' => $count4,
+				'spasial' => $count5,
+				'logic' => $count6,
+				'intrapersonal' => $count7,
 				'user_id' => $id
 			]);
 			
@@ -158,7 +158,7 @@ class QuizController extends Controller
 	public function showevent()
 	{
 		$userid = \Auth::user()->id;
-		$datau = \App\Userquiz::where('user_id',$userid)->select('score_musik','score_linguistik','score_sport','score_interpersonal','score_spasial','score_logic','score_intrapersonal')->first();
+		$datau = \App\Score::where('user_id',$userid)->select('MUSIC','linguistik','sport','interpersonal','spasial','logic','intrapersonal')->first();
 		if($datau !== null){
 			$x = $datau->toArray();
     			$max = max($x);
@@ -179,7 +179,7 @@ class QuizController extends Controller
 	public function getRecommended()
 	{
 		$userid = \Auth::user()->id;
-		$datau = \App\Userquiz::where('user_id',$userid)->select('score_musik','score_linguistik','score_sport','score_interpersonal','score_spasial','score_logic','score_intrapersonal')->first();
+		$datau = \App\Score::where('user_id',$userid)->select('music','linguistik','sport','interpersonal','spasial','logic','intrapersonal')->first();
 		if($datau !== null){
 			$x = $datau->toArray();
     			$max = max($x);
@@ -213,14 +213,14 @@ class QuizController extends Controller
 			       
 			}
     			
-			$x = \App\Quizcat::where('quizcat.id',$quizcat)
-				->join('interest_quizcat','quizcat.id','=','interest_quizcat.quizcat_id')
-				->join('interest','interest_quizcat.interest_id','=','interest.id')
-				->join('events_interest','interest.id','=','events_interest.interest_id')
-				->join('events','events_interest.events_id','=','events.id')
-				->select('events.id','nama_event','gambar_event','type',\DB::raw('substr(isi, 1, 55) as mini_desc'),'tgl_event')
+			$x = \App\Quizcategory::where('quizcategory.id',$quizcat)
+				->join('quizcategory_interest','quizcategory.id','=','quizcategory_interest.quizcategory_id')
+				->join('interests','quizcategory_interest.interest_id','=','interest.id')
+				->join('event_interest','interest.id','=','event_interest.interest_id')
+				->join('event','event_interest.event_id','=','event.id')
+				->select('event.id','nama_event','gambar_event','type',\DB::raw('substr(isi, 1, 55) as mini_desc'),'tgl_event')
 				->orderBy('id', 'desc')
-				->groupBy('events.id')
+				->groupBy('event.id')
 				->paginate(9);
 			
 			return Response::json($x);

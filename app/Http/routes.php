@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 
 //untuk halaman depan
 
@@ -10,7 +9,7 @@ Route::get('/', function () {
 
 Route::get('/wow', function(){
 	$quizcat = '1';
-	$x = App\Quizcat::where('quizcat.id',$quizcat)
+	$x = App\Quizcategory::where('quizcat.id',$quizcat)
 		->join('interest_quizcat','quizcat.id','=','interest_quizcat.quizcat_id')
 		->join('interest','interest_quizcat.interest_id','=','interest.id')
 		->join('events_interest','events_interest.interest_id','=','interest.id')
@@ -91,13 +90,10 @@ Route::group(['prefix' => 'api'], function () {
         });
         
     	//buat event
-	Route::get('event','EventsController@index');
-	    
-	Route::get('event/{id}','EventsController@show');
-	    
-	Route::get('highlight','EventsController@highlight');        
-	
-	 
+    	Route::get('event','EventsController@index');    	    
+    	Route::get('event/{id}','EventsController@show');
+    	    
+    	Route::get('highlight','EventsController@highlight');        
         Route::get('newhighlight','EventsController@newhighlight');
         
         Route::post('event/daftar/{id}','EventsController@daftar');
@@ -124,7 +120,4 @@ Route::group(['prefix' => 'api'], function () {
         
 
     });
-    
-    
-
 });

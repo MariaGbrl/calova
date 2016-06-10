@@ -25,13 +25,13 @@ class MiminController extends Controller
     public function index()
     {
     	$total = User::count();
-    	$event = Events::count();
+    	$event = Event::count();
         return view('mimin.index',['total' => $total,'event' => $event]);
     }
     
     public function events()
     {
-    	$events = Events::orderBy('id', 'desc')->paginate(15);
+    	$events = Event::orderBy('id', 'desc')->paginate(15);
     	return view('mimin.events',['events' => $events]);
     }
     
@@ -44,14 +44,14 @@ class MiminController extends Controller
     public function category()
     {
     	$cat = Interest::all();
-    	$quizcat = Quizcat::all();
+    	$quizcat = Quizcategory::all();
         return view('mimin.category',['cat' => $cat,'quizcat' => $quizcat]);
     }
     
     public function showedit($id)
     {
         $catz = Interest::where('id',$id)->first();
-        $catx = $catz->quizcat()->get();
+        $catx = $catz->quizcategory()->get();
         
         if(!isset($catx))
         {
@@ -65,7 +65,7 @@ class MiminController extends Controller
         
         
         
-    	$quizcat = Quizcat::whereNotIn('id',$checked)->get();
+    	$quizcat = Quizcategory::whereNotIn('id',$checked)->get();
         return view('mimin.editcat',['catz' => $catz,'quizcat' => $quizcat,'catx' => $catx]);
     }
 
@@ -85,7 +85,7 @@ class MiminController extends Controller
         
         if ($request->hasFile('image'))
         {
-            $x = \DB::table('interest')->where('id',$id)->first();
+            $x = \DB::table('interests')->where('id',$id)->first();
             $x = str_replace("http://calova.id/assets","",$x->image);
             $x1= "../public_html/assets/$x";
             \File::delete($x1);
@@ -103,9 +103,9 @@ class MiminController extends Controller
         $input = $request->only('name_interest');
         $int->fill($input)->save();
     	
-    	\DB::table('interest_quizcat')->where('interest_id',$id)->delete();
+    	\DB::table('quizcategory_interest')->where('interest_id',$id)->delete();
     	
-      	foreach($request->input('quizcat_interest') as $quizcatInt)
+      	foreach($request->input('quizcategory_interest') as $quizcatInt)
     	{
     		$int->quizcat()->attach($quizcatInt);	
     	} 
@@ -130,8 +130,8 @@ class MiminController extends Controller
     	{
     		$event->interest()->detach($id);
     	}
-    	\DB::table('interest')->where('id',$id)->delete();
-    	\DB::table('interest_quizcat')->where('interest_id',$id)->delete();
+    	\DB::table('interests')->where('id',$id)->delete();
+    	\DB::table('quizcategory_interest')->where('interest_id',$id)->delete();
     	
         return redirect('mimin/category')->with('status', 'Sukses detach category');
     }
@@ -169,7 +169,7 @@ class MiminController extends Controller
     	    $request->file('image')->move($destinationPath, $fileName);
     	}
 	
-    	$event = new Events(array(
+    	$event = new Event(array(
     		'nama_event' => $request->input('nama_event'),
     		'tgl_event' => $request->input('tgl_event'),
     		'organizer' => $request->input('organizer'),
@@ -216,18 +216,18 @@ class MiminController extends Controller
     	    $fileName = date("Ymdhis").'.'.$request->file('image')->getClientOriginalExtension();
     	    $request->file('image')->move($destinationPath, $fileName);
     	    
-    	    $forimage = Events::findOrFail($id);
+    	    $forimage = Event::findOrFail($id);
         	$forimage->gambar_event = "http://calova.id/imagesup/$fileName";
         	$forimage->save();
     	}    
     
-    	$event = Events::findOrFail($id);
+    	$event = Event::findOrFail($id);
     	$input = $request->all();
     	$event->fill($input)->save();
  
 
     	
-    	\DB::table('events_interest')->where('events_id',$id)->delete();
+    	\DB::table('event_interest')->where('event_id',$id)->delete();
     	
         foreach($request->input('events_interest') as $eventInt)
         {
@@ -250,7 +250,7 @@ class MiminController extends Controller
      */
     public function edit($id)
     {   	
-    	$events = Events::where('id',$id)->first();
+    	$events = Event::where('id',$id)->first();
     	$interestX = $events->interest()->get();
     	
     	if(!isset($interestX))
