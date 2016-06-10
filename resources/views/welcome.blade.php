@@ -96,7 +96,7 @@
 					<p id="text">Calova adalah aplikasi yang menyajikan segudang informasi bagi kaum muda untuk menggali potensi pada bidang yang diminatinya </p>
 				</div>
 				<div class="buttons">
-						<a href="landing/https://play.google.com/store/apps/details?id=com.calova&hl=en">
+						<a href="https://play.google.com/store/apps/details?id=com.calova&hl=en">
 							<img id="googleplaybtn" src="landing/stylesheets/assets/google play btn.png">
 						</a>
 							<img id="comingsoonbtn" src="landing/stylesheets/assets/coming soon btn.png">
