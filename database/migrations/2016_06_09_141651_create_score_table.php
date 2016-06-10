@@ -12,7 +12,7 @@ class CreateScoreTable extends Migration
      */
     public function up()
     {
-        Schema::create('score', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('music');
             $table->integer('linguistik');
@@ -23,7 +23,6 @@ class CreateScoreTable extends Migration
             $table->integer('intrapersonal');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-
             $table->timestamps();
         });
     }
