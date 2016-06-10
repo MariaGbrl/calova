@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title>Calova</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="landing/Stylesheets/design.css">
+	<link rel="stylesheet" type="text/css" href="landing/stylesheets/design.css">
 	<link rel="stylesheet" type="text/css" href="landing/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="landing/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="landing/js/bootstrap.min.js">
@@ -139,7 +139,7 @@
 				
 			</div>
 			<div class="col-md-7">
-					<img id="findeventpic" src="landing/Stylesheets/assets/find_event.png">
+					<img id="findeventpic" src="landing/stylesheets/assets/find_event.png">
 			</div>
 		</div>
 	</div>
@@ -147,7 +147,7 @@
 	<div class="container" id="content1">
 		<div class="row">
 			<div class="col-md-7">
-				<img id="saveEventpic" src="landing/Stylesheets/assets/save your event.png">
+				<img id="saveEventpic" src="landing/stylesheets/assets/save your event.png">
 			</div>
 			<div class="col-md-5">
 				<div class="contenttxt2">
@@ -172,7 +172,7 @@
 				
 			</div>
 			<div class="col-md-5">
-					<img id="knowpic" src="landing/Stylesheets/assets/knowing yourself.png">
+					<img id="knowpic" src="landing/stylesheets/assets/knowing yourself.png">
 			</div>
 		</div>
 	</div>
